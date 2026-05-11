@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Interview Quest
 
-## Getting Started
+A modern, minimal web application that generates thoughtful, role-specific interview questions using AI. Built with Next.js, Tailwind CSS, and the Gemini API.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **AI-Powered Generation**: Uses `gemini-2.5-flash` to create professional questions that assess practical ability and communication skills.
+- **Modern Minimal UI**: Dark-themed interface with subtle gradients, soft blur effects, and smooth animations.
+- **One-Click Actions**:
+  - 📋 **Copy to Clipboard**: Quickly copy generated questions.
+  - 🔄 **Regenerate**: Instantly get a new set of questions for the same role.
+- **Responsive Design**: Fully optimized for all screen sizes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **AI Engine**: [Google Gemini API](https://ai.google.dev/) (`gemini-2.5-flash`)
+- **Icons**: [Heroicons](https://heroicons.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18+ installed
+- A Google Gemini API Key (Get one from [Google AI Studio](https://aistudio.google.com/))
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd interview-quest-generator
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory and add your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+## 🏗️ Project Structure
+
+- `src/app/page.tsx` - The main frontend interface and state management.
+- `src/app/api/generate/route.ts` - Backend API route that handles communication with Gemini AI.
+- `src/app/globals.css` - Global styles and Tailwind configuration for the dark theme.
+
+## 📝 Prompt Logic
+
+The app uses a specialized hiring manager prompt to ensure high-quality output:
+*"You are an experienced hiring manager. Generate exactly 3 thoughtful and professional interview questions... assess practical ability, assess communication skills, be concise and realistic."*
+
+---
+Built with ❤️ using Next.js and Gemini AI.

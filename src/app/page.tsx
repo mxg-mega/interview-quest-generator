@@ -1,7 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ClipboardDocumentIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+
+const LOADING_PHRASES = [
+  "Analyzing role requirements...",
+  "Sourcing industry-standard questions...",
+  "Crafting behavioral prompts...",
+  "Optimizing for candidate experience...",
+  "Polishing technical assessments...",
+  "Gathering expert insights...",
+  "Almost there...",
+];
 
 /**
  * Home Component
@@ -12,6 +22,27 @@ export default function Home() {
   const [jobTitle, setJobTitle] = useState("");
   const [questions, setQuestions] = useState("");
   const [loading, setLoading] = useState(false);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  /**
+   * Effect to cycle through loading phrases while the API is thinking.
+   */
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (loading) {
+      interval = setInterval(() => {
+        setPhraseIndex((prev) => (prev + 1) % LOADING_PHRASES.length);
+      }, 3000);
+    } else {
+      // Use a cleanup or just let it reset on next start to avoid lint error
+      // if we really want to reset it, we can use a separate effect or just ignore the lint warning
+      // but usually resetting it to 0 is fine if it's not visible.
+      // However, to satisfy the lint rule, we can just do it in the cleanup or omit it.
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [loading]);
 
   /**
    * Triggers the API request to generate interview questions
@@ -20,6 +51,7 @@ export default function Home() {
   const generateQuestions = async () => {
     if (!jobTitle) return;
     setLoading(true);
+    setPhraseIndex(0);
     setQuestions("");
     try {
       const response = await fetch("/api/generate", {
@@ -33,7 +65,7 @@ export default function Home() {
       } else {
         alert(data.error || "An error occurred");
       }
-    } catch (error) {
+    } catch {
       alert("An error occurred while generating questions");
     } finally {
       setLoading(false);
@@ -47,7 +79,7 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(questions);
       alert("Copied to clipboard!");
-    } catch (error) {
+    } catch {
       alert("Failed to copy");
     }
   };
@@ -97,7 +129,9 @@ export default function Home() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
-            <p className="text-white font-medium animate-pulse">Thinking...</p>
+            <p key={phraseIndex} className="text-white font-medium animate-fade-in-out">
+              {LOADING_PHRASES[phraseIndex]}
+            </p>
           </div>
         </div>
       )}

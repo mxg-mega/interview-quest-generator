@@ -39,12 +39,11 @@ The questions should:
 Return the response as a numbered list only.`;
 
     const result = await model.generateContent(prompt);
-    console.log("Gemini API Result:", result);
     const response = result.response;
     const text = response.text();
 
     return NextResponse.json({ questions: text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini API Error:", error);
     return NextResponse.json({ error: "Failed to generate questions" }, { status: 500 });
   }
